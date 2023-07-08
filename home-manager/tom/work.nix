@@ -1,8 +1,10 @@
-{ inputs, outputs, lib, ... }:
+{ inputs, outputs, lib, pkgs, ... }:
 {
   imports = [
     ./global
   ];
+
+  home.packages = [pkgs.polkit]; # Not sure if this work...
 
   programs.git.userEmail = lib.mkForce "tfleurant@zeenea.com";
   programs.git.extraConfig.github.token = "FILLME";
@@ -32,6 +34,8 @@
        # ASDF with Nix
        export $(asdf info | grep ASDF_DIR)
        . $ASDF_DIR/asdf.sh;
+
+       export SSH_AUTH_SOCK=~/.1password/agent.sock
 
        #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!! 
        export SDKMAN_DIR="$HOME/.sdkman"

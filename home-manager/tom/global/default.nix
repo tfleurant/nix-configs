@@ -77,6 +77,8 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     pkgs.asdf-vm
+    pkgs._1password-gui
+    pkgs._1password
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
