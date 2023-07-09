@@ -59,17 +59,17 @@
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         # FIXME replace with your hostname
-        work = nixpkgs.lib.nixosSystem {
+        laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main nixos configuration file <
-            ./nixos/configuration.nix
+            ./nixos/asus-pr1400ua/configuration.nix
           ];
         };
       };
 
       # Standalone home-manager configuration entrypoint
-      # Available through 'home-manager --flake .#your-username@your-hostname'
+      # Available through 'home-manager switch --flake .#your-username@your-hostname'
       homeConfigurations = {
         "tom@work" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
@@ -77,6 +77,14 @@
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/tom/work.nix
+          ];
+        };
+        "tom@laptop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main home-manager configuration file <
+            ./home-manager/tom/laptop.nix
           ];
         };
       };
