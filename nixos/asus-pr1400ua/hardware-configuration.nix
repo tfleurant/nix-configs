@@ -10,7 +10,10 @@
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "rtw88_pci" ];
+  boot.extraModprobeConfig = ''
+    options rtw_88_pci disable_aspm=1
+  '';
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
