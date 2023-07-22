@@ -8,6 +8,7 @@
     # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
+    nixpkgs-old-git.url = "github:nixos/nixpkgs/8ad5e8132c5dcf977e308e7bf5517cc6cc0bf7d8";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.05";
@@ -31,6 +32,10 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
+      old-git = import inputs.nixpkgs-old-git {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
     in
     rec {
       # Your custom packages
@@ -71,7 +76,10 @@
       # Available through 'home-manager switch --flake .#your-username@your-hostname'
       homeConfigurations = {
         "tom@work" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.x86_64-linux.extend (final: prev: {
+            git = old-git.pkgs.git ;
+          });
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <

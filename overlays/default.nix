@@ -11,12 +11,35 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+    # git = prev.git.overrideAttrs (old: {
+    #   version = "2.39.3";
+    #   src = prev.fetchFromGitHub {
+    #     owner = "NixOS";
+    #     repo = "nixpkgs";
+    #     rev = "8ad5e8132c5dcf977e308e7bf5517cc6cc0bf7d8";
+    #     # If you don't know the hash, the first time, set:
+    #     # hash = "";
+    #     # then nix will fail the build with such an error message:
+    #     # hash mismatch in fixed-output derivation '/nix/store/m1ga09c0z1a6n7rj8ky3s31dpgalsn0n-source':
+    #     # specified: sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+    #     # got:    sha256-173gxk0ymiw94glyjzjizp8bv8g72gwkjhacigd1an09jshdrjb4
+    #     hash = "";
+    #   };
+    # });
+    # git = pkgs.old-git.pkgs.git ;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
   unstable-packages = final: _prev: {
     unstable = import inputs.nixpkgs-unstable {
+      system = final.system;
+      config.allowUnfree = true;
+    };
+  };
+
+  old-git-rev-packages = final: _prev: {
+    old-git = import inputs.nixpkgs-old-git {
       system = final.system;
       config.allowUnfree = true;
     };
