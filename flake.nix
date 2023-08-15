@@ -8,7 +8,7 @@
     # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
-    nixpkgs-old-git.url = "github:nixos/nixpkgs/8ad5e8132c5dcf977e308e7bf5517cc6cc0bf7d8";
+    # nixpkgs-old-git.url = "github:nixos/nixpkgs/8ad5e8132c5dcf977e308e7bf5517cc6cc0bf7d8";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.05";
@@ -77,9 +77,7 @@
       homeConfigurations = {
         "tom@work" = home-manager.lib.homeManagerConfiguration {
           # Home-manager requires 'pkgs' instance
-          pkgs = nixpkgs.legacyPackages.x86_64-linux.extend (final: prev: {
-            git = old-git.pkgs.git ;
-          });
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <

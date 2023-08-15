@@ -79,6 +79,7 @@
     pkgs.asdf-vm
     pkgs._1password-gui
     pkgs._1password
+    pkgs.spotify
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

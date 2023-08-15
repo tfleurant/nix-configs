@@ -10,7 +10,20 @@
   programs.git.extraConfig.github.token = "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";
   programs.git.extraConfig.index.skipHash = false;
   programs.google-chrome.enable = true;
-  
+
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      aws = {
+        host = "i-* mi-*";
+        extraOptions = {
+            IdentityAgent = "~/.1password/agent.sock";
+            ProxyCommand = "~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/zeenea.pub";
+            StrictHostKeyChecking="no";
+        };
+      };
+    };
+  };
 
   programs.zsh = {
     # To use, add /home/tom/.nix-profile/bin/zsh to /etc/shells and then run chsh -s $(which zsh) tom
