@@ -1,5 +1,5 @@
 # This file defines overlays
-{ inputs, ... }:
+{ inputs, outputs }:
 {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs { pkgs = final; };
@@ -23,10 +23,9 @@
     #     # hash mismatch in fixed-output derivation '/nix/store/m1ga09c0z1a6n7rj8ky3s31dpgalsn0n-source':
     #     # specified: sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     #     # got:    sha256-173gxk0ymiw94glyjzjizp8bv8g72gwkjhacigd1an09jshdrjb4
-    #     hash = "";
+    #     hash = "sha256-0gI2FHID8XYD3504kLFRLH3C2GmMCzVMC50APV/kZp8=";
     #   };
     # });
-    # git = pkgs.old-git.pkgs.git ;
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
@@ -38,10 +37,4 @@
     };
   };
 
-  old-git-rev-packages = final: _prev: {
-    old-git = import inputs.nixpkgs-old-git {
-      system = final.system;
-      config.allowUnfree = true;
-    };
-  };
 }
