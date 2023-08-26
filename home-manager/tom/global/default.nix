@@ -1,7 +1,7 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{ outputs, lib, config, pkgs, ... }: {
   # You can import other home-manager modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
@@ -81,6 +81,7 @@
     pkgs._1password
     pkgs.spotify
     pkgs.nerdfonts
+    pkgs.agebox
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

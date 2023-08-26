@@ -1,4 +1,7 @@
-{ inputs, outputs, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
+let 
+   secrets = builtins.fromTOML (builtins.readFile ../../secrets/secrets.toml);
+in
 {
   imports = [
     ./global
@@ -7,8 +10,8 @@
 
   home.packages = [pkgs.polkit]; # Not sure if this work...
 
-  programs.git.userEmail = lib.mkForce "TODO";
-  programs.git.extraConfig.github.token = "TODO";
+  programs.git.userEmail = lib.mkForce secrets.git.work.email;
+  programs.git.extraConfig.github.token = lib.mkForce secrets.git.work.githubToken;
   programs.git.extraConfig.index.skipHash = false;
   programs.google-chrome.enable = true;
 

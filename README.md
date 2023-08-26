@@ -31,8 +31,7 @@ nix develop --impure
 --------------------------
 op account add
 eval $(op signin)
-op read op://Personal/Secrets/public_key > ~/.ssh/secrets.pub
-op read op://Personal/Secrets/private_key > ~/.ssh/secrets
+op read op://Personal/ TODO > ~/.ssh/secrets
 ```
 
 Encrypt: `agebox encrypt secrets`
