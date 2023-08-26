@@ -13,6 +13,13 @@
       # secrets
       _1password
       agebox
-      ];
+
+      # other
+      pre-commit
+    ];
+
+    shellHook = ''
+      pre-commit install
+    '';
   };
 }
