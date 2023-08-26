@@ -2,12 +2,13 @@
 {
   imports = [
     ./global
+    ./features/cli/starship
   ];
 
   home.packages = [pkgs.polkit]; # Not sure if this work...
 
-  programs.git.userEmail = lib.mkForce "tfleurant@zeenea.com";
-  programs.git.extraConfig.github.token = "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";
+  programs.git.userEmail = lib.mkForce "TODO";
+  programs.git.extraConfig.github.token = "TODO";
   programs.git.extraConfig.index.skipHash = false;
   programs.google-chrome.enable = true;
 
@@ -40,12 +41,11 @@
       visualvm="/opt/visualvm/visualvm_215/bin/visualvm";
     };
     oh-my-zsh = {
-      enable = true;
+      enable = false;
       plugins = [ "git" "aws" "terraform" "asdf"];
       theme = "avit";
     };
     initExtra = ''
-       RPROMPT="[%D{%f/%m/%y} | %D{%L:%M:%S}]"
        # ASDF with Nix
        export $(asdf info | grep ASDF_DIR)
        . $ASDF_DIR/asdf.sh;
@@ -55,6 +55,27 @@
        #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!! 
        export SDKMAN_DIR="$HOME/.sdkman"
        [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+    '';
+  };
+
+  programs.fish = {
+    enable = true;
+
+    shellAliases = {
+      weather="curl wttr.in/Nantes";
+      orientdb-console="/opt/orientdb/orientdb-community-3.1.20/bin/console.sh";
+      zeenea-cli="~/Documents/scripts/zeenea-cli.fish";
+      grpc_cli="/home/tom/Documents/Projets/grpc/cmake/build/grpc_cli";
+      visualvm="/opt/visualvm/visualvm_215/bin/visualvm";
+    };
+
+    shellInit = ''
+      # ASDF with Nix
+      set ASDF_DIR $(asdf info | grep ASDF_DIR | string split -f 2 =)
+      source $ASDF_DIR/asdf.fish
+      mkdir -p ~/.config/fish/completions; and ln -fs $ASDF_DIR/completions/asdf.fish ~/.config/fish/completions
+
+      export SSH_AUTH_SOCK=~/.1password/agent.sock
     '';
   };
 

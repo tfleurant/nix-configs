@@ -25,34 +25,21 @@
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       inherit (self) outputs;
-      forAllSystems = nixpkgs.lib.genAttrs [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      old-git = import inputs.nixpkgs-old-git {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-      };
-    in
-    rec {
+      lib = nixpkgs.lib // home-manager.lib;
+      systems = [ "x86_64-linux" "aarch64-linux" ];
+      forEachSystem = f: lib.genAttrs systems (sys: f pkgsFor.${sys});
+      pkgsFor = nixpkgs.legacyPackages;
+    in {
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
-      packages = forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./pkgs { inherit pkgs; }
-      );
+      packages = forEachSystem (pkgs: import ./pkgs { inherit pkgs; });
+
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
-      devShells = forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./shell.nix { inherit pkgs; }
-      );
+      devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
 
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { inherit inputs outputs; };
       # Reusable nixos modules you might want to export
       # These are usually stuff you would upstream into nixpkgs
       nixosModules = import ./modules/nixos;
@@ -77,7 +64,7 @@
       homeConfigurations = {
         "tom@work" = home-manager.lib.homeManagerConfiguration {
           # Home-manager requires 'pkgs' instance
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = pkgsFor.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <
@@ -85,7 +72,7 @@
           ];
         };
         "tom@laptop" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = pkgsFor.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > Our main home-manager configuration file <

@@ -9,6 +9,7 @@
       init.defaultBranch = "main";
       core.autocrlf = "input";
       push.autoSetupRemote = true;
+      index.skipHash = false;
     };
     ignores = [ ".direnv" ];
   };

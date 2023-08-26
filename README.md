@@ -13,3 +13,10 @@ chmod +x ./nixos-init.sh
 ```
 
 After booting, run the `passwd` command to change your password.
+
+# Change shell
+```
+echo /home/tom/.nix-profile/bin/fish | sudo tee -a /etc/shells
+chsh -s /home/tom/.nix-profile/bin/fish
+```
+
