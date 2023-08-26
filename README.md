@@ -20,3 +20,23 @@ echo /home/tom/.nix-profile/bin/fish | sudo tee -a /etc/shells
 chsh -s /home/tom/.nix-profile/bin/fish
 ```
 
+
+
+# Agebox and 1password
+
+-------------------------------
+```
+export NIXPKGS_ALLOW_UNFREE=1
+nix develop --impure
+--------------------------
+op account add
+eval $(op signin)
+op read op://Personal/Secrets/public_key > ~/.ssh/secrets.pub
+op read op://Personal/Secrets/private_key > ~/.ssh/secrets
+```
+
+Encrypt: `agebox encrypt secrets`
+
+Decrypt: `agebox decrypt --all --force`
+
+Remember to reencrypt before commiting
