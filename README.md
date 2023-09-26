@@ -28,10 +28,12 @@ chsh -s /home/tom/.nix-profile/bin/fish
 ```
 export NIXPKGS_ALLOW_UNFREE=1
 nix develop --impure
+# OR
+nix develop --impure --extra-experimental-features nix-command --extra-experimental-features flakes
 --------------------------
 op account add
 eval $(op signin)
-op read op://Personal/ TODO > ~/.ssh/secrets
+op read 'op://Personal/agebox key/secrets' > ~/.ssh/secrets
 ```
 
 Encrypt: `agebox encrypt secrets`

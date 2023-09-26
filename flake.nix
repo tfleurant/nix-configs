@@ -57,6 +57,13 @@
             ./nixos/asus-pr1400ua/configuration.nix
           ];
         };
+        desktop = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main nixos configuration file <
+            ./nixos/desktop/configuration.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -77,6 +84,14 @@
           modules = [
             # > Our main home-manager configuration file <
             ./home-manager/tom/laptop.nix
+          ];
+        };
+        "tom@desktop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgsFor.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            # > Our main home-manager configuration file <
+            ./home-manager/tom/desktop.nix
           ];
         };
       };
