@@ -11,6 +11,9 @@
       push.autoSetupRemote = true;
       index.skipHash = false;
     };
-    ignores = [ ".direnv" ];
+    ignores = [ 
+      ".direnv"
+      "completions"
+    ];
   };
 }

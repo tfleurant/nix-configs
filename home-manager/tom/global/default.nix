@@ -82,6 +82,10 @@
     pkgs.spotify
     pkgs.nerdfonts
     pkgs.agebox
+    pkgs.wxGTK32
+    pkgs.inotify-tools
+    pkgs.bloop
+    pkgs.git-lfs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
