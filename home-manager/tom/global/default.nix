@@ -86,6 +86,8 @@
     pkgs.inotify-tools
     pkgs.bloop
     pkgs.git-lfs
+    pkgs.libsForQt5.kdeconnect-kde
+    pkgs.jetbrains-toolbox
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
