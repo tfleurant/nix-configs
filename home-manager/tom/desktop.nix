@@ -6,6 +6,7 @@ in
   imports = [
     ./global
     ./features/cli/starship
+    ./features/neovim
   ];
 
   programs.ssh = {
@@ -21,18 +22,27 @@ in
 
     shellAliases = {
       weather="curl wttr.in/Nantes";
-      orientdb-console="/opt/orientdb/orientdb-community-3.1.20/bin/console.sh";
-      zeenea-cli="~/Documents/scripts/zeenea-cli.fish";
-      grpc_cli="/home/tom/Documents/Projets/grpc/cmake/build/grpc_cli";
-      visualvm="/opt/visualvm/visualvm_215/bin/visualvm";
     };
 
-    shellInit = ''
-      # ASDF with Nix
-      set ASDF_DIR $(asdf info | grep ASDF_DIR | string split -f 2 =)
-      source $ASDF_DIR/asdf.fish
-      mkdir -p ~/.config/fish/completions; and ln -fs $ASDF_DIR/completions/asdf.fish ~/.config/fish/completions
-    '';
+    # shellInit = ''
+    #   # ASDF with Nix
+    #   set ASDF_DIR $(asdf info | grep ASDF_DIR | string split -f 2 =)
+    #   source $ASDF_DIR/asdf.fish
+    #   mkdir -p ~/.config/fish/completions; and ln -fs $ASDF_DIR/completions/asdf.fish ~/.config/fish/completions
+    # '';
+
+    plugins = [
+      { name = "bass"; src = pkgs.fishPlugins.bass.src; }
+      {
+        name = "asdf";
+        src = pkgs.fetchFromGitHub {
+          owner = "rstacruz";
+          repo = "fish-asdf";
+          rev = "5869c1b1ecfba63f461abd8f98cb21faf337d004";
+          sha256 = "sha256-39L6UDslgIEymFsQY8klV/aluU971twRUymzRL17+6c=";
+        };
+      }
+    ];
   };
 
 
